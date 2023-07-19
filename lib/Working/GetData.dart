@@ -12,14 +12,15 @@ class Weather
   String apiKey= "40ee76a33085129f390cf3a27b8737db";
   double latitude = 0;
   double longitude = 0;
-
+  String sunset = "";
+  String sunrise = "";
   String temperature= "";
   String minimum= "";
   String maximum= "";
   String visibility = "";
 
   String feelsLike= "";
-
+  String date = "";
   String description= "";
   String humidity= "";
   String clouds= "";
@@ -30,6 +31,7 @@ class Weather
   }
   Weather.convertData(Map data)
   {
+
    city = data["city"];
    latitude = data["latitude"];
    longitude = data["longitude"];
@@ -45,7 +47,9 @@ class Weather
    minimum = data["minimum"];
    maximum = data["maximum"];
    visibility = data["visibility"];
-
+   sunrise = data["sunrise"];
+   sunset = data["sunset"];
+   date = data["date"];
   }
 
 
@@ -118,9 +122,11 @@ class Weather
       Map main = data['main']; //main
       Map wind = data['wind']; //WIND
       Map cloud = data['clouds']; //CLOUD
+      Map sys = data['sys']; //sys
 
       // city = data['name'];
-      visibility = data["visibility"];
+      visibility = data["visibility"].toString();
+      // print("ttemp: ${main['temp']}");
       temperature = main['temp'].toString();
       minimum = main['temp_min'].toString();
       maximum = main['temp_max'].toString();
@@ -131,7 +137,29 @@ class Weather
       windSpeed = wind["speed"].toString();
       clouds = cloud["all"].toString();
 
-      // var date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateUtc, true);
+      DateTime sunsetTime = DateTime.fromMillisecondsSinceEpoch(sys['sunset'] * 1000);
+      String sunsetHour = sunsetTime.hour.toString().padLeft(2, '0');
+      String sunsetMinute = sunsetTime.minute.toString().padLeft(2, '0');
+      sunset = "$sunsetHour:$sunsetMinute";
+      print("Sunset: $sunset");
+
+
+      DateTime sunriseTime = DateTime.fromMillisecondsSinceEpoch(sys['sunrise'] * 1000);
+      String sunriseHour = sunriseTime.hour.toString().padLeft(2, '0');
+      String sunriseMinute = sunriseTime.minute.toString().padLeft(2, '0');
+      sunrise = "$sunriseHour:$sunriseMinute";
+      print("sunrise: $sunrise");
+
+
+
+      final Date = DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000);
+      // print(date.day);
+      date = "${Date.month}/${Date.day}";
+
+
+      // print("Date: "+ date.toString());
+      //
+      // var date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(sys['sunrise'], true);
       // var local = date.toLocal().toString();
       // print(local);
 
@@ -147,7 +175,10 @@ class Weather
       clouds = "N/A";
       visibility = "N/A";
       temperature = "N/A";
+      sunset = "N/A";
+      sunrise = "N/A";
       icon = "01d";
+      date= "N/A";
 
       print(e);
     }
@@ -167,8 +198,11 @@ class Weather
       Map main = data['main']; //main
       Map wind = data['wind']; //WIND
       Map cloud = data['clouds']; //CLOUD
+      Map sys = data['sys']; //sys
 
-      visibility = data["visibility"];
+      // city = data['name'];
+      visibility = data["visibility"].toString();
+      // print("ttemp: ${main['temp']}");
       temperature = main['temp'].toString();
       minimum = main['temp_min'].toString();
       maximum = main['temp_max'].toString();
@@ -178,18 +212,48 @@ class Weather
       humidity = main["humidity"].toString();
       windSpeed = wind["speed"].toString();
       clouds = cloud["all"].toString();
+
+      DateTime sunsetTime = DateTime.fromMillisecondsSinceEpoch(data['sys']['sunset'] * 1000);
+      String sunsetHour = sunsetTime.hour.toString().padLeft(2, '0');
+      String sunsetMinute = sunsetTime.minute.toString().padLeft(2, '0');
+      sunset = "$sunsetHour:$sunsetMinute";
+      print("Sunset: $sunset");
+
+
+      DateTime sunriseTime = DateTime.fromMillisecondsSinceEpoch(data['sys']['sunrise'] * 1000);
+      String sunriseHour = sunriseTime.hour.toString().padLeft(2, '0');
+      String sunriseMinute = sunriseTime.minute.toString().padLeft(2, '0');
+      sunrise = "$sunriseHour:$sunriseMinute";
+      print("sunrise: $sunrise");
+
+
+      final Date = DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000);
+      // print(date.day);
+      date = "${Date.month}/${Date.day}";
+      // var date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(sys['sunrise'], true);
+      // var local = date.toLocal().toString();
+      // print(local);
+
+      // countryCode =
     }catch(e) {
-      icon = "04d";
-      temperature = " ";
-      minimum = " ";
-      maximum = " ";
-      feelsLike = " ";
-      clouds = " ";
-      humidity = " ";
-      windSpeed = " ";
-      description = " ";
-      visibility = " ";
+      temperature = "N/A";
+      feelsLike = "N/A";
+      minimum = "N/A";
+      maximum = "N/A";
+      description = "N/A";
+      humidity = "N/A";
+      windSpeed = "N/A";
+      clouds = "N/A";
+      visibility = "N/A";
+      temperature = "N/A";
+      sunset = "N/A";
+      sunrise = "N/A";
+      icon = "01d";
+      date= "N/A";
+
+
       print(e);
+
     }
 
 

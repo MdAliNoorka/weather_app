@@ -37,6 +37,10 @@ class _LoadingState extends State<Loading> {
         "minimum": weather.minimum,
         "maximum": weather.maximum,
         "visibility": weather.visibility,
+        "sunset": weather.sunset,
+        "sunrise": weather.sunrise,
+        "date": weather.date,
+        // "": weather
 
       });
     });

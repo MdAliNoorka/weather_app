@@ -296,7 +296,7 @@ class _HomeState extends State<Home> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          left: widthPercent(70),
+                                          left: widthPercent(30),
                                           bottom: heightPercent(15)),
                                       child: Text(
                                         ("${weather.temperature}"),
@@ -347,36 +347,129 @@ class _HomeState extends State<Home> {
                         //   vertical: heightPercent(3.5)),
                         // ),
                         padding: EdgeInsets.symmetric(
-                            vertical: heightPercent(2),
+                            vertical: heightPercent(1),
                             horizontal: widthPercent(2)),
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
-                          // alignment: Alignment.,
+                          alignment: Alignment.topLeft,
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Icon(WeatherIcons.humidity),
-                                  Text(weather.humidity),
-                                ],
+                              // Row(
+                              //   children: [
+                              //     Icon(WeatherIcons.humidity),
+                              //     Text(weather.humidity),
+                              //   ],
+                              // ),
+                              Container( //windspeed
+                                padding:
+                                    EdgeInsets.only(left: widthPercent(3.5)),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      WeatherIcons.windy,
+                                      size: averagePercent(7),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          top: heightPercent(2.2),
+                                          left: widthPercent(3.5)),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            weather.windSpeed,
+                                            style: TextStyle(
+                                              fontSize: averagePercent(4),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(top: heightPercent(.5)),
+                                            child: Text(
+                                              " km/h",
+                                              style: TextStyle(
+                                                fontSize: averagePercent(2.5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Icon(WeatherIcons.wind),
-                                  Text(weather.windSpeed),
-                                ],
+                              Container( //clouds
+                                padding:
+                                EdgeInsets.only(left: widthPercent(3.5)),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      WeatherIcons.cloud,
+                                      size: averagePercent(7),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          top: heightPercent(2.2),
+                                          left: widthPercent(3.5)),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            weather.clouds,
+                                            style: TextStyle(
+                                              fontSize: averagePercent(4),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(top: heightPercent(.5)),
+                                            child: Text(
+                                              " %",
+                                              style: TextStyle(
+                                                fontSize: averagePercent(3.5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Icon(WeatherIcons.cloud),
-                                  Text(weather.clouds),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Icon(Icons.visibility),
-                                  Text("${weather.visibility}km/h"),
-                                ],
+                              Container( //humidity
+                                padding:
+                                EdgeInsets.only(left: widthPercent(3.5)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      WeatherIcons.humidity,
+                                      size: averagePercent(7),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          top: heightPercent(2.2),
+                                          left: widthPercent(3.5)),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            weather.humidity,
+                                            style: TextStyle(
+                                              fontSize: averagePercent(4),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(top: heightPercent(.5)),
+                                            child: Text(
+                                              " %",
+                                              style: TextStyle(
+                                                fontSize: averagePercent(3.5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -402,16 +495,95 @@ class _HomeState extends State<Home> {
                         // ),
                         padding: EdgeInsets.symmetric(
                             vertical: heightPercent(2),
-                            horizontal: widthPercent(2)),
+                            // horizontal: widthPercent(1)
+                        ),
                         child: FittedBox(
                             fit: BoxFit.scaleDown,
                             // alignment: Alignment.,
-                            child: Text(
-                              "RIGHT hand",
-                              style: TextStyle(
-                                fontSize: averagePercent(20),
-                              ),
-                            )),
+                            child:Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container( //date
+                                  // padding:
+                                  // EdgeInsets.only(left: widthPercent(0)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.date_range_outlined,
+                                        size: averagePercent(7),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: heightPercent(1.2),
+                                            left: widthPercent(3.5)),
+                                        child: Text(
+                                              weather.date,
+                                              style: TextStyle(
+                                                fontSize: averagePercent(4),
+                                              ),
+                                            ),
+
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container( //sunrise
+                                  // padding:
+                                  // EdgeInsets.only(left: widthPercent(0)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        WeatherIcons.sunrise,
+                                        size: averagePercent(6),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: heightPercent(1.2),
+                                            left: widthPercent(5.5)),
+                                        child: Text(
+                                          weather.sunrise,
+                                          style: TextStyle(
+                                            fontSize: averagePercent(4),
+                                          ),
+                                        ),
+
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container( //sunset
+                                  // padding:
+                                  // EdgeInsets.only(left: widthPercent(0)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        WeatherIcons.sunset,
+                                        size: averagePercent(6),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: heightPercent(1.2),
+                                            left: widthPercent(5.5)),
+                                        child: Text(
+                                          weather.sunset,
+                                          style: TextStyle(
+                                            fontSize: averagePercent(4),
+                                          ),
+                                        ),
+
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),),
                       ),
                     ),
                   ],
