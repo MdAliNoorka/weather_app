@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:intl/intl.dart';
 class Weather
 {
+
+  int me = 0;
   String icon = "";
   String city = "";
   String countryCode= "";
