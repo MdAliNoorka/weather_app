@@ -5,7 +5,7 @@ import 'package:geocoding/geocoding.dart';
 class Weather
 {
 
-  int me = 0;
+  int me = 1;
   String icon = "";
   String city = "";
   String countryCode= "";
