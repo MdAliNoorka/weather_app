@@ -398,13 +398,15 @@ class _HomeState extends State<Home> {
                                   ],
                                 ),
                               ),
+                              SizedBox(height: heightPercent(.7),),
+
                               Container( //clouds
                                 padding:
                                 EdgeInsets.only(left: widthPercent(3.5)),
                                 child: Row(
                                   children: [
                                     Icon(
-                                      WeatherIcons.cloud,
+                                      WeatherIcons.cloudy,
                                       size: averagePercent(7),
                                     ),
                                     Container(
@@ -434,6 +436,8 @@ class _HomeState extends State<Home> {
                                   ],
                                 ),
                               ),
+                              SizedBox(height: heightPercent(.7),),
+
                               Container( //humidity
                                 padding:
                                 EdgeInsets.only(left: widthPercent(3.5)),
@@ -530,6 +534,7 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                 ),
+                                SizedBox(height: heightPercent(.7),),
                                 Container( //sunrise
                                   // padding:
                                   // EdgeInsets.only(left: widthPercent(0)),
@@ -556,6 +561,8 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                 ),
+                                SizedBox(height: heightPercent(.7),),
+
                                 Container( //sunset
                                   // padding:
                                   // EdgeInsets.only(left: widthPercent(0)),

@@ -140,7 +140,7 @@ class Weather
       DateTime sunsetTime = DateTime.fromMillisecondsSinceEpoch(sys['sunset'] * 1000);
       String sunsetHour = sunsetTime.hour.toString().padLeft(2, '0');
       String sunsetMinute = sunsetTime.minute.toString().padLeft(2, '0');
-      sunset = "$sunsetHour:$sunsetMinute";
+      sunset = "${int.parse(sunsetHour) - 12}:$sunsetMinute";
       print("Sunset: $sunset");
 
 
@@ -152,9 +152,6 @@ class Weather
 
 
 
-      final Date = DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000);
-      // print(date.day);
-      date = "${Date.month}/${Date.day}";
 
 
       // print("Date: "+ date.toString());
@@ -216,7 +213,7 @@ class Weather
       DateTime sunsetTime = DateTime.fromMillisecondsSinceEpoch(data['sys']['sunset'] * 1000);
       String sunsetHour = sunsetTime.hour.toString().padLeft(2, '0');
       String sunsetMinute = sunsetTime.minute.toString().padLeft(2, '0');
-      sunset = "$sunsetHour:$sunsetMinute";
+      sunset = "${int.parse(sunsetHour) - 12}:$sunsetMinute";
       print("Sunset: $sunset");
 
 
@@ -226,10 +223,10 @@ class Weather
       sunrise = "$sunriseHour:$sunriseMinute";
       print("sunrise: $sunrise");
 
-
-      final Date = DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000);
-      // print(date.day);
-      date = "${Date.month}/${Date.day}";
+      //
+      // final Date = DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000);
+      // // print(date.day);
+      // date = "${Date.month-12}/${Date.day}";
       // var date = DateFormat("yyyy-MM-dd HH:mm:ss").parse(sys['sunrise'], true);
       // var local = date.toLocal().toString();
       // print(local);
