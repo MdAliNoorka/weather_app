@@ -1,3 +1,4 @@
+// import 'dart:js_interop';
 import 'dart:math';
 import 'dart:ui';
 
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/Working/GetData.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
+
 class Loading extends StatefulWidget {
   const Loading({super.key});
 
@@ -16,9 +18,8 @@ class _LoadingState extends State<Loading> {
   @override
   Weather weather = Weather();
 
-
-  void RunApp() async {
-    await weather.getData();
+  void RunApp([String city = "N/A"]) async {
+    await weather.getData(city);
     // GetCurrentPosition();
     Future.delayed(Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, '/home', arguments: {
@@ -41,7 +42,6 @@ class _LoadingState extends State<Loading> {
         "sunrise": weather.sunrise,
         "date": weather.date,
         // "": weather
-
       });
     });
   }
@@ -50,8 +50,8 @@ class _LoadingState extends State<Loading> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // RunApp();
     print("init states loading");
-    RunApp();
   }
 
   @override
@@ -69,6 +69,48 @@ class _LoadingState extends State<Loading> {
   }
 
   Widget build(BuildContext context) {
+    print("outside");
+
+    if (ModalRoute.of(context)!.settings.arguments != null &&
+        ModalRoute.of(context)!.settings.arguments is Map &&
+        (ModalRoute.of(context)!.settings.arguments as Map).isNotEmpty) {
+      // Arguments have been passed.
+      print("argument passed: ");
+      Map searchedData = ModalRoute.of(context)!.settings.arguments as Map;
+      RunApp(searchedData['city']);
+    } else {
+      // No arguments have been passed.
+      print("No argument passed: ");
+
+      RunApp();
+    }
+
+    // if (ModalRoute.of(context)?.settings?.arguments == null) {
+    //     print("inside  if");
+    //     RunApp();
+    //   }
+    // else
+    //   {
+    //     Map searchedData = ModalRoute.of(context)!.settings.arguments as Map;
+    //     print("outside $searchedData");
+    //     if (searchedData.isNotEmpty) {
+    //       print("inside else if $searchedData");
+    //       RunApp(searchedData['city']);
+    //     }
+    //   }
+    // Map searchedData = ModalRoute.of(context)!.settings.arguments as Map;
+    //
+    // print("outside $searchedData");
+    // if (searchedData?.isNotEmpty ?? false) {
+    //   // weather
+    //   // print(searchedData['city']);
+    //   print("inside if $searchedData");
+    //
+    //   RunApp(searchedData['city']);
+    // } else
+    //   {
+    //   }
+
     double widthPercent(double a) {
       return (MediaQuery.of(context).size.width * a) / 100.0;
     }
@@ -94,63 +136,65 @@ class _LoadingState extends State<Loading> {
 
     return Scaffold(
         backgroundColor: Colors.black,
-        body: Center(
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    bottom: heightPercent(2.0), top: heightPercent(20)),
-                child: Image.asset(
-                  "Assets/Images/weather-app.png",
-                  width: widthPercent(100),
-                  height: heightPercent(25),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      bottom: heightPercent(2.0), top: heightPercent(20)),
+                  child: Image.asset(
+                    "Assets/Images/weather-app.png",
+                    width: widthPercent(100),
+                    height: heightPercent(25),
+                  ),
                 ),
-              ),
-              Text(
-                "Weather App",
-                style: TextStyle(
-                  fontSize: greaterPercent(4.5),
-                  // fontSize: averagePercent(6),
-                  fontWeight: FontWeight.w500,
+                Text(
+                  "Weather App",
+                  style: TextStyle(
+                    fontSize: greaterPercent(4.5),
+                    // fontSize: averagePercent(6),
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    // fontStyle: FontStyl
+                  ),
+                ),
+                SizedBox(
+                  height: heightPercent(2),
+                ),
+                Text(
+                  "Developed by Muhammad Ali",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontStyle: FontStyle.italic,
+                    fontSize: greaterPercent(2.0),
+                    color: Colors.white70,
+                  ),
+                ),
+                SizedBox(
+                  height: heightPercent(8),
+                ),
+                SpinKitWave(
                   color: Colors.white,
-                  // fontStyle: FontStyl
+                  size: heightPercent(8),
                 ),
-              ),
-              SizedBox(
-                height: heightPercent(2),
-              ),
-              Text(
-                "Developed by Muhammad Ali",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.italic,
-                  fontSize: greaterPercent(2.0),
-                  color: Colors.white70,
+                SizedBox(
+                  height: heightPercent(5),
                 ),
-              ),
-              SizedBox(
-                height: heightPercent(8),
-              ),
-              SpinKitWave(
-                color: Colors.white,
-                size: heightPercent(8),
-              ),
-              SizedBox(
-                height: heightPercent(5),
-              ),
-              Text(
-                "Data Being fetched by openweather.org",
-                style: TextStyle(
-                  // fontWeight: FontWeight.w500,
-                  // fontStyle: FontStyle.italic,
-                  fontSize: greaterPercent(2.0),
-                  color: Colors.white60,
+                Text(
+                  "Data Being fetched by openweather.org",
+                  style: TextStyle(
+                    // fontWeight: FontWeight.w500,
+                    // fontStyle: FontStyle.italic,
+                    fontSize: greaterPercent(2.0),
+                    color: Colors.white60,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }

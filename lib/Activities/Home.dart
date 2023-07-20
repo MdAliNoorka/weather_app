@@ -7,7 +7,7 @@ import 'package:weather_app/Working/GetData.dart';
 import 'package:weather_app/Working/ScreenResolution.dart';
 import 'package:flutter_gradient_app_bar/flutter_gradient_app_bar.dart';
 import 'package:weather_icons/weather_icons.dart';
-
+import 'package:intl/intl.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -115,6 +115,20 @@ class _HomeState extends State<Home> {
     var randomCity = cities[random.nextInt(cities.length)];
     // print(weather.description);
     // print(weather.icon);
+
+    String currentTime = DateFormat('HH:mm').format(DateTime.now());
+    // print(currentTime); // output: 19:36:01
+
+    TextEditingController searchController = new TextEditingController();
+
+    FocusNode searchNode = FocusNode();
+    // final refreshKey = GlobalKey<RefreshIndicatorState>();
+    // Future<void> OnRefresh() async
+    // {
+    //   print("Refreshed");
+    //   await Future.delayed(Duration(milliseconds: 1));
+    //   setState(() {});
+    // }
     return Scaffold(
       backgroundColor: Colors.black,
       // resizeToAvoidBottomInset: false,
@@ -156,7 +170,11 @@ class _HomeState extends State<Home> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        // print(searchController.text);
+                        FocusScope.of(context).requestFocus(searchNode);
+                      },
+
                       child: Container(
                           margin: EdgeInsets.fromLTRB(
                               widthPercent(1.2), 0, widthPercent(1.7), 0),
@@ -167,11 +185,29 @@ class _HomeState extends State<Home> {
                     ),
                     Expanded(
                         child: TextField(
+                          // onTap: (){
+                          //   Navigator.pushNamed(context, "/loading", arguments: {
+                          //     "city" : searchController.text,
+                          //   });
+                          //   },
+                          // onTapOutside: ,
+                          // textInputAction: TextInputAction.,
+                          focusNode: searchNode,
+                          onEditingComplete: (){
+                              Navigator.pushNamed(context, "/loading", arguments: {
+                                "city" : searchController.text,
+                              });
+                            print("hello");
+                          },
+                          // onTapOutside: (),
+                          // onSubmitted:
+                          controller: searchController,
                       decoration: InputDecoration(
                         hintText: "Search $randomCity",
                         border: InputBorder.none,
                       ),
                     )),
+
                   ],
                 ),
               ),
@@ -516,17 +552,17 @@ class _HomeState extends State<Home> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Icon(
-                                        Icons.date_range_outlined,
-                                        size: averagePercent(7),
+                                        Icons.access_time_outlined,
+                                        size: averagePercent(6),
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(
-                                            top: heightPercent(1.2),
-                                            left: widthPercent(3.5)),
+                                            top: heightPercent(.8),
+                                            left: widthPercent(6.5)),
                                         child: Text(
                                               weather.date,
                                               style: TextStyle(
-                                                fontSize: averagePercent(4),
+                                                fontSize: averagePercent(3.5),
                                               ),
                                             ),
 
@@ -548,12 +584,12 @@ class _HomeState extends State<Home> {
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(
-                                            top: heightPercent(1.2),
-                                            left: widthPercent(5.5)),
+                                            top: heightPercent(1.8),
+                                            left: widthPercent(6.5)),
                                         child: Text(
                                           weather.sunrise,
                                           style: TextStyle(
-                                            fontSize: averagePercent(4),
+                                            fontSize: averagePercent(3.5),
                                           ),
                                         ),
 
@@ -576,12 +612,12 @@ class _HomeState extends State<Home> {
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(
-                                            top: heightPercent(1.2),
-                                            left: widthPercent(5.5)),
+                                            top: heightPercent(1.8),
+                                            left: widthPercent(6.5)),
                                         child: Text(
                                           weather.sunset,
                                           style: TextStyle(
-                                            fontSize: averagePercent(4),
+                                            fontSize: averagePercent(3.5),
                                           ),
                                         ),
 
