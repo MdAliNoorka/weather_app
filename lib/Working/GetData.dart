@@ -54,7 +54,6 @@ class Weather {
   Future<Position> getCurrentPosition() async {
     Position position;
     LocationPermission locationPermission = await Geolocator.checkPermission();
-    print("Location permission: $locationPermission");
 
     if (locationPermission == LocationPermission.denied) {
       locationPermission = await Geolocator.requestPermission();
@@ -93,10 +92,6 @@ class Weather {
     double long = a1['lon'];
     latitude = lat;
     longitude = long;
-    // print("lat");
-    // print(latitude);
-    // print("long");
-    // print(longitude);
   }
 
   Future<void> _getWeatherSpecsByCoordinates(Position position) async {
@@ -104,24 +99,20 @@ class Weather {
     try {
       latitude = position.latitude;
       longitude = position.longitude;
-      print("in getweatherbyco: $latitude $longitude");
       List<Placemark> placemarks =
           await placemarkFromCoordinates(latitude, longitude);
       Placemark place = placemarks[0];
       String? cityName = place.locality;
-      print("city is: $cityName");
-      city = cityName!;
     } catch (e) {
       print("Error in City Finding by Coordinates");
       return;
     }
-    String url = "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=40ee76a33085129f390cf3a27b8737db&units=metric";
+    String url = "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric";
     await _getWeatherSpecs(url);
 
   }
 
   Future<void> _getWeatherSpecsByCity() async {
-    // await _getCoordinates(tempCity1: tempCity0, tempCountryCode1: tempCountryCode0 );
     String url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric";
     await _getWeatherSpecs(url);
   }
@@ -129,6 +120,7 @@ class Weather {
   Future<void> _getWeatherSpecs(String url) async {
     try {
       Response response = await get(Uri.parse(url));
+
       Map data = jsonDecode(response.body);
       List tempWeather = data['weather'];
 
@@ -138,9 +130,8 @@ class Weather {
       Map cloud = data['clouds']; //CLOUD
       Map sys = data['sys']; //sys
 
-      // city = data['name'];
+      city = data['name'];
       visibility = data["visibility"].toString();
-      // print("ttemp: ${main['temp']}");
       temperature = main['temp'].toString();
       minimum = main['temp_min'].toString();
       maximum = main['temp_max'].toString();
@@ -156,23 +147,18 @@ class Weather {
       String sunsetHour = sunsetTime.hour.toString().padLeft(2, '0');
       String sunsetMinute = sunsetTime.minute.toString().padLeft(2, '0');
       sunset = "${int.parse(sunsetHour) - 12}:$sunsetMinute";
-      print("Sunset: $sunset");
 
       DateTime sunriseTime =
           DateTime.fromMillisecondsSinceEpoch(sys['sunrise'] * 1000);
       String sunriseHour = sunriseTime.hour.toString().padLeft(2, '0');
       String sunriseMinute = sunriseTime.minute.toString().padLeft(2, '0');
       sunrise = "$sunriseHour:$sunriseMinute";
-      print("sunrise: $sunrise");
 
       DateTime currentDate =
           DateTime.fromMillisecondsSinceEpoch(data['dt'] * 1000);
       String currentMonth = currentDate.month.toString().padLeft(2, '0');
       String currentDay = currentDate.day.toString().padLeft(2, '0');
       date = "$currentMonth/$currentDay";
-      print("current: $date");
-
-      // countryCode =
     } catch (e) {
       temperature = "N/A";
       feelsLike = "N/A";
@@ -188,29 +174,19 @@ class Weather {
       sunrise = "N/A";
       icon = "01d";
       date = "N/A";
-
-      print(e);
     }
-    printWeatherSpecs();
   }
-
   Future<void> getData(String city) async {
     if (city == "N/A") {
       Position position = await getCurrentPosition();
-      print("Position: $position");
       await _getWeatherSpecsByCoordinates(position);
     } else {
       this.city = city;
       await _getWeatherSpecsByCity();
     }
   }
-
   void printWeatherSpecs() {
     print(
         "city: $city: $longitude Latitude: $latitude \nTemperature: $temperature \nmaximum: $maximum \nminimum: $minimum \nclouds: $clouds \nwindSpeed: $windSpeed \nhumidity: $humidity\nfeelsLike: $feelsLike\ndescription: $description");
-  }
-
-  String get_Description() {
-    return description;
   }
 }

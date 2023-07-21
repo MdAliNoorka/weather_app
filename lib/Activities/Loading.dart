@@ -1,4 +1,3 @@
-// import 'dart:js_interop';
 import 'dart:math';
 import 'dart:ui';
 
@@ -158,7 +157,7 @@ class _LoadingState extends State<Loading> {
                     // fontSize: averagePercent(6),
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
-                    // fontStyle: FontStyl
+                    // fontStyle: FontStyl    outside
                   ),
                 ),
                 SizedBox(

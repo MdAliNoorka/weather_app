@@ -122,534 +122,586 @@ class _HomeState extends State<Home> {
     TextEditingController searchController = new TextEditingController();
 
     FocusNode searchNode = FocusNode();
-    // final refreshKey = GlobalKey<RefreshIndicatorState>();
-    // Future<void> OnRefresh() async
-    // {
-    //   print("Refreshed");
-    //   await Future.delayed(Duration(milliseconds: 1));
-    //   setState(() {});
-    // }
+    final refreshKey = GlobalKey<RefreshIndicatorState>();
+    Future<void> OnRefresh() async
+    {
+      Navigator.pushReplacementNamed(context, "/loading", arguments: {
+
+      "city" : weather.city,
+      });
+      // Navigator.pushNamed(context, "/loading", arguments: {
+      //   "city" : searchController.text,
+      // });
+      print("Refreshed");
+      // await weather.getData("indore");
+      // await Future.delayed(Duration(milliseconds: 1));
+      // setState(() {});
+      // print("we cityyy: ${weather.city}");
+      // weather.city = "iindore";
+      // print(weather.city);
+      setState(() {
+      });
+    }
     return Scaffold(
       backgroundColor: Colors.black,
       // resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: SingleChildScrollView(
-            child: Container(
-          height: MediaQuery.of(context).size.height -
-              MediaQuery.of(context).padding.top,
-          // height: double.maxFinite,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            // stops: [0.5, 0.5],
-            colors: [Colors.blueAccent, Colors.lightBlueAccent],
-          )),
+        child: RefreshIndicator(
+          onRefresh: OnRefresh,
+          child: SingleChildScrollView(
+              child: Container(
+            height: MediaQuery.of(context).size.height -
+                MediaQuery.of(context).padding.top * 0.99,
+            // height: double.maxFinite,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              // stops: [0.5, 0.5],
+              colors: [Colors.blueAccent, Colors.lightBlueAccent],
+            )),
 
-          child: Column(
-            children: [
-              Container(
-                //search container
-                // color: Colors.blueGrey,
-                height: heightPercent(6.5),
-                width: widthPercent(93.6),
-                padding: EdgeInsets.symmetric(
-                  horizontal: widthPercent(1.2),
-                ),
-                margin: EdgeInsets.only(
-                  left: widthPercent(3.2),
-                  right: widthPercent(3.2),
-                  top: heightPercent(3.5),
-                  bottom: heightPercent(3.5),
-                ),
+            child: Column(
+              children: [
+                Container(
+                  //search container
+                  // color: Colors.blueGrey,
+                  height: heightPercent(6.5),
+                  width: widthPercent(93.6),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: widthPercent(1.2),
+                  ),
+                  margin: EdgeInsets.only(
+                    left: widthPercent(3.2),
+                    right: widthPercent(3.2),
+                    top: heightPercent(3.5),
+                    bottom: heightPercent(3.5),
+                  ),
 
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+
+                          // print(searchController.text);
+                          FocusScope.of(context).requestFocus(searchNode);
+                        },
+
+                        child: Container(
+                            margin: EdgeInsets.fromLTRB(
+                                widthPercent(1.2), 0, widthPercent(1.7), 0),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.blue,
+                            )),
+                      ),
+                      Expanded(
+                          child: TextField(
+                            // onTap: (){
+                            //   Navigator.pushNamed(context, "/loading", arguments: {
+                            //     "city" : searchController.text,
+                            //   });
+                            //   },
+                            // onTapOutside: ,
+                            // textInputAction: TextInputAction.,
+                            focusNode: searchNode,
+                            // onSubmitted: ( () {}),
+                            onEditingComplete: (){
+                                Navigator.pushReplacementNamed(context, "/loading", arguments: {
+                                  "city" : searchController.text,
+                                });
+                              print("hello");
+                            },
+                            // onTapOutside: (),
+                            // onSubmitted:
+                            controller: searchController,
+                        decoration: InputDecoration(
+                          hintText: "Search $randomCity",
+                          border: InputBorder.none,
+                        ),
+                      )),
+                      GestureDetector(
+                        child: Container(
+                          padding: EdgeInsets.only(right: widthPercent(3)),
+                          child: Icon(Icons.refresh_outlined,
+                          size: averagePercent(8),
+                            color: Colors.teal,
+
+                          ),
+                        ),
+                        onTap: OnRefresh,
+
+                      ),
+                    ],
+                  ),
                 ),
-                child: Row(
+                Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        // print(searchController.text);
-                        FocusScope.of(context).requestFocus(searchNode);
-                      },
-
-                      child: Container(
-                          margin: EdgeInsets.fromLTRB(
-                              widthPercent(1.2), 0, widthPercent(1.7), 0),
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.blue,
-                          )),
-                    ),
                     Expanded(
-                        child: TextField(
-                          // onTap: (){
-                          //   Navigator.pushNamed(context, "/loading", arguments: {
-                          //     "city" : searchController.text,
-                          //   });
-                          //   },
-                          // onTapOutside: ,
-                          // textInputAction: TextInputAction.,
-                          focusNode: searchNode,
-                          onEditingComplete: (){
-                              Navigator.pushNamed(context, "/loading", arguments: {
-                                "city" : searchController.text,
-                              });
-                            print("hello");
-                          },
-                          // onTapOutside: (),
-                          // onSubmitted:
-                          controller: searchController,
-                      decoration: InputDecoration(
-                        hintText: "Search $randomCity",
-                        border: InputBorder.none,
-                      ),
-                    )),
+                      child: Container(
+                        //description
 
-                  ],
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      //description
-
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white.withOpacity(0.45),
-                      ),
-                      height: heightPercent(15),
-                      margin: EdgeInsets.symmetric(
-                        horizontal: widthPercent(3.2),
-                        // vertical: heightPercent(2.5),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          vertical: heightPercent(2),
-                          horizontal: widthPercent(2)),
-                      // padding: EdgeInsets.all(40),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        // alignment: Alignment.,
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Container(
-                            //   height: heightPercent(30),
-                            //   width: widthPercent(100),
-                            Image.network(
-                              "https://openweathermap.org/img/wn/${weather.icon}@2x.png",
-                              // fit: BoxFit.cover,
-                              // scale: 0,
-                              // ),
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  weather.description,
-                                  // "Description datta",
-                                  style: TextStyle(
-                                    fontSize: averagePercent(5),
-                                    // letterSpacing: 1,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: heightPercent(1.5),
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.location_on_outlined,
-                                        size: averagePercent(4)),
-                                    Text(
-                                      weather.city,
-                                      // Text("{data[city]}",
-                                      style: TextStyle(
-                                          fontSize: averagePercent(4)),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.white.withOpacity(0.45),
+                        ),
+                        height: heightPercent(15),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: widthPercent(3.2),
+                          // vertical: heightPercent(2.5),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: heightPercent(2),
+                            horizontal: widthPercent(2)),
+                        // padding: EdgeInsets.all(40),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          // alignment: Alignment.,
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Container(
+                              //   height: heightPercent(30),
+                              //   width: widthPercent(100),
+                              Image.network(
+                                "https://openweathermap.org/img/wn/${weather.icon}@2x.png",
+                                // fit: BoxFit.cover,
+                                // scale: 0,
+                                // ),
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    weather.description,
+                                    // "Description datta",
+                                    style: TextStyle(
+                                      fontSize: averagePercent(5),
+                                      // letterSpacing: 1,
                                     ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
+                                  ),
+                                  SizedBox(
+                                    height: heightPercent(1.5),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(top: heightPercent(.3), right: widthPercent(1.2)),
+
+                                        child: Icon(Icons.location_on_outlined,
+                                            size: averagePercent(4),
+                                          color: Colors.teal,
+                                        ),
+                                      ),
+                                      Text(
+                                        weather.city,
+                                        // Text("{data[city]}",
+                                        style: TextStyle(
+                                            fontSize: averagePercent(4)),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                          //main widget
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                            //main widget
+
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.white.withOpacity(0.45),
+                            ),
+                            // padding: EdgeInsets.all(40),
+                            height: heightPercent(27),
+                            width: widthPercent(100),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: widthPercent(3.2),
+                              vertical: heightPercent(2),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: heightPercent(2),
+                                horizontal: widthPercent(2)),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              // alignment: Alignment.,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        WeatherIcons.thermometer,
+                                        size: averagePercent(27),
+                                        color: Colors.red,
+                                      ),
+                                      Icon(
+                                        WeatherIcons.celsius,
+                                        size: averagePercent(39),
+                                        // color: Colors.yellow,
+
+                                      ),
+                                      // Padding(
+                                      //   padding:  EdgeInsets.only(top: heightPercent(6), left: 0),
+                                      //   child: Text("C", style: TextStyle(
+                                      //     fontSize: averagePercent(17),
+                                      //   ),),
+                                      // )
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: widthPercent(30),
+                                            bottom: heightPercent(15)),
+                                        child: Text(
+                                          ("${weather.temperature}"),
+                                          // "{data[temperature]}",
+                                          style: TextStyle(
+                                            fontSize: averagePercent(70),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.only(left: widthPercent(200)),
+                                    child: Text(
+                                      "Feels like: ${weather.feelsLike}",
+                                      style: TextStyle(
+                                        fontSize: averagePercent(15),
+                                        // fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ))),
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: widthPercent(3.2),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          //left hand
 
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.white.withOpacity(0.45),
                           ),
                           // padding: EdgeInsets.all(40),
-                          height: heightPercent(27),
-                          width: widthPercent(100),
-                          margin: EdgeInsets.symmetric(
-                            horizontal: widthPercent(3.2),
-                            vertical: heightPercent(2),
-                          ),
+                          height: heightPercent(22),
+                          // margin: EdgeInsets.symmetric(
+                          //   horizontal: widthPercent(3.2),
+                          //   vertical: heightPercent(3.5)),
+                          // ),
                           padding: EdgeInsets.symmetric(
-                              vertical: heightPercent(2),
+                              vertical: heightPercent(1),
                               horizontal: widthPercent(2)),
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            // alignment: Alignment.,
+                            alignment: Alignment.topLeft,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              // mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  // mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      WeatherIcons.thermometer,
-                                      size: averagePercent(17),
-                                    ),
-                                    Icon(
-                                      WeatherIcons.celsius,
-                                      size: averagePercent(29),
-                                    ),
-                                    // Padding(
-                                    //   padding:  EdgeInsets.only(top: heightPercent(6), left: 0),
-                                    //   child: Text("C", style: TextStyle(
-                                    //     fontSize: averagePercent(17),
-                                    //   ),),
-                                    // )
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: widthPercent(30),
-                                          bottom: heightPercent(15)),
-                                      child: Text(
-                                        ("${weather.temperature}"),
-                                        // "{data[temperature]}",
-                                        style: TextStyle(
-                                          fontSize: averagePercent(70),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.only(left: widthPercent(200)),
-                                  child: Text(
-                                    "Feels like: ${weather.feelsLike}",
-                                    style: TextStyle(
-                                      fontSize: averagePercent(15),
-                                      // fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ))),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: widthPercent(3.2),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        //left hand
-
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white.withOpacity(0.45),
-                        ),
-                        // padding: EdgeInsets.all(40),
-                        height: heightPercent(22),
-                        // margin: EdgeInsets.symmetric(
-                        //   horizontal: widthPercent(3.2),
-                        //   vertical: heightPercent(3.5)),
-                        // ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: heightPercent(1),
-                            horizontal: widthPercent(2)),
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Row(
-                              //   children: [
-                              //     Icon(WeatherIcons.humidity),
-                              //     Text(weather.humidity),
-                              //   ],
-                              // ),
-                              Container( //windspeed
-                                padding:
-                                    EdgeInsets.only(left: widthPercent(3.5)),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      WeatherIcons.windy,
-                                      size: averagePercent(7),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          top: heightPercent(2.2),
-                                          left: widthPercent(3.5)),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            weather.windSpeed,
-                                            style: TextStyle(
-                                              fontSize: averagePercent(4),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(top: heightPercent(.5)),
-                                            child: Text(
-                                              " km/h",
-                                              style: TextStyle(
-                                                fontSize: averagePercent(2.5),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: heightPercent(.7),),
-
-                              Container( //clouds
-                                padding:
-                                EdgeInsets.only(left: widthPercent(3.5)),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      WeatherIcons.cloudy,
-                                      size: averagePercent(7),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          top: heightPercent(2.2),
-                                          left: widthPercent(3.5)),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            weather.clouds,
-                                            style: TextStyle(
-                                              fontSize: averagePercent(4),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(top: heightPercent(.5)),
-                                            child: Text(
-                                              " %",
-                                              style: TextStyle(
-                                                fontSize: averagePercent(3.5),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: heightPercent(.7),),
-
-                              Container( //humidity
-                                padding:
-                                EdgeInsets.only(left: widthPercent(3.5)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      WeatherIcons.humidity,
-                                      size: averagePercent(7),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          top: heightPercent(2.2),
-                                          left: widthPercent(3.5)),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            weather.humidity,
-                                            style: TextStyle(
-                                              fontSize: averagePercent(4),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(top: heightPercent(.5)),
-                                            child: Text(
-                                              " %",
-                                              style: TextStyle(
-                                                fontSize: averagePercent(3.5),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: widthPercent(2.8),
-                    ),
-                    Expanded(
-                      child: Container(
-                        //right hand
-
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white.withOpacity(0.45),
-                        ),
-                        // padding: EdgeInsets.all(40),
-                        height: heightPercent(22),
-                        // margin: EdgeInsets.symmetric(
-                        //   horizontal: widthPercent(3.2),
-                        //   // vertical: heightPercent(3.5)),
-                        // ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: heightPercent(2),
-                            // horizontal: widthPercent(1)
-                        ),
-                        child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            // alignment: Alignment.,
-                            child:Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container( //date
-                                  // padding:
-                                  // EdgeInsets.only(left: widthPercent(0)),
+                                // Row(
+                                //   children: [
+                                //     Icon(WeatherIcons.humidity),
+                                //     Text(weather.humidity),
+                                //   ],
+                                // ),
+                                Container( //windspeed
+                                  padding:
+                                      EdgeInsets.only(left: widthPercent(3.5)),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Icon(
-                                        Icons.access_time_outlined,
-                                        size: averagePercent(6),
+                                        WeatherIcons.windy,
+                                        size: averagePercent(7),
+                                        color: Colors.blueGrey,
+
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(
-                                            top: heightPercent(.8),
-                                            left: widthPercent(6.5)),
-                                        child: Text(
-                                              weather.date,
+                                            top: heightPercent(2.2),
+                                            left: widthPercent(3.5)),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              weather.windSpeed,
                                               style: TextStyle(
-                                                fontSize: averagePercent(3.5),
+                                                fontSize: averagePercent(4),
                                               ),
                                             ),
-
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: heightPercent(.7),),
-                                Container( //sunrise
-                                  // padding:
-                                  // EdgeInsets.only(left: widthPercent(0)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Icon(
-                                        WeatherIcons.sunrise,
-                                        size: averagePercent(6),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            top: heightPercent(1.8),
-                                            left: widthPercent(6.5)),
-                                        child: Text(
-                                          weather.sunrise,
-                                          style: TextStyle(
-                                            fontSize: averagePercent(3.5),
-                                          ),
+                                            Container(
+                                              padding: EdgeInsets.only(top: heightPercent(.5)),
+                                              child: Text(
+                                                " km/h",
+                                                style: TextStyle(
+                                                  fontSize: averagePercent(2.5),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-
                                       ),
                                     ],
                                   ),
                                 ),
                                 SizedBox(height: heightPercent(.7),),
 
-                                Container( //sunset
-                                  // padding:
-                                  // EdgeInsets.only(left: widthPercent(0)),
+                                Container( //clouds
+                                  padding:
+                                  EdgeInsets.only(left: widthPercent(3.5)),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Icon(
-                                        WeatherIcons.sunset,
-                                        size: averagePercent(6),
+                                        WeatherIcons.cloudy,
+                                        size: averagePercent(7),
+                                        color: Colors.blueGrey,
+
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(
-                                            top: heightPercent(1.8),
-                                            left: widthPercent(6.5)),
-                                        child: Text(
-                                          weather.sunset,
-                                          style: TextStyle(
-                                            fontSize: averagePercent(3.5),
-                                          ),
+                                            top: heightPercent(2.2),
+                                            left: widthPercent(3.5)),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              weather.clouds,
+                                              style: TextStyle(
+                                                fontSize: averagePercent(4),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(top: heightPercent(.5)),
+                                              child: Text(
+                                                " %",
+                                                style: TextStyle(
+                                                  fontSize: averagePercent(3.5),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: heightPercent(.7),),
 
+                                Container( //humidity
+                                  padding:
+                                  EdgeInsets.only(left: widthPercent(3.5)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        WeatherIcons.humidity,
+                                        size: averagePercent(7),
+                                        color: Colors.blueGrey,
+
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: heightPercent(2.2),
+                                            left: widthPercent(3.5)),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              weather.humidity,
+                                              style: TextStyle(
+                                                fontSize: averagePercent(4),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(top: heightPercent(.5)),
+                                              child: Text(
+                                                " %",
+                                                style: TextStyle(
+                                                  fontSize: averagePercent(3.5),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ],
-                            ),),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: heightPercent(4),
-              ),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                // alignment: Alignment.,
-                child: Text(
-                  "Developed by Muhammad Ali",
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w300,
-                    fontSize: averagePercent(2),
+                      SizedBox(
+                        width: widthPercent(2.8),
+                      ),
+                      Expanded(
+                        child: Container(
+                          //right hand
+
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white.withOpacity(0.45),
+                          ),
+                          // padding: EdgeInsets.all(40),
+                          height: heightPercent(22),
+                          // margin: EdgeInsets.symmetric(
+                          //   horizontal: widthPercent(3.2),
+                          //   // vertical: heightPercent(3.5)),
+                          // ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: heightPercent(2),
+                              // horizontal: widthPercent(1)
+                          ),
+                          child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              // alignment: Alignment.,
+                              child:Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container( //date
+                                    // padding:
+                                    // EdgeInsets.only(left: widthPercent(0)),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.access_time_outlined,
+                                          size: averagePercent(6),
+                                          color: Colors.blueGrey,
+
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                              top: heightPercent(.8),
+                                              left: widthPercent(6.5)),
+                                          child: Text(
+                                                weather.date,
+                                                style: TextStyle(
+                                                  fontSize: averagePercent(3.5),
+                                                ),
+                                              ),
+
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: heightPercent(.7),),
+                                  Container( //sunrise
+                                    // padding:
+                                    // EdgeInsets.only(left: widthPercent(0)),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          WeatherIcons.sunrise,
+                                          size: averagePercent(6),
+                                          color: Colors.blueGrey,
+
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                              top: heightPercent(1.8),
+                                              left: widthPercent(6.5)),
+                                          child: Text(
+                                            weather.sunrise,
+                                            style: TextStyle(
+                                              fontSize: averagePercent(3.5),
+                                            ),
+                                          ),
+
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: heightPercent(.7),),
+
+                                  Container( //sunset
+                                    // padding:
+                                    // EdgeInsets.only(left: widthPercent(0)),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          WeatherIcons.sunset,
+                                          size: averagePercent(6),
+                                          color: Colors.blueGrey,
+
+
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                              top: heightPercent(1.8),
+                                              left: widthPercent(6.5)),
+                                          child: Text(
+                                            weather.sunset,
+                                            style: TextStyle(
+                                              fontSize: averagePercent(3.5),
+                                            ),
+                                          ),
+
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        )),
+                SizedBox(
+                  height: heightPercent(4),
+                ),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  // alignment: Alignment.,
+                  child: Text(
+                    "Developed by Muhammad Ali",
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w300,
+                      fontSize: averagePercent(2),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )),
+        ),
       ),
     );
   }
