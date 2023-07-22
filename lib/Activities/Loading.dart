@@ -74,8 +74,9 @@ class _LoadingState extends State<Loading> {
         ModalRoute.of(context)!.settings.arguments is Map &&
         (ModalRoute.of(context)!.settings.arguments as Map).isNotEmpty) {
       // Arguments have been passed.
-      print("argument passed: ");
+      // print("argument passed: ");
       Map searchedData = ModalRoute.of(context)!.settings.arguments as Map;
+      
       RunApp(searchedData['city']);
     } else {
       // No arguments have been passed.
