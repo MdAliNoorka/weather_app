@@ -18,31 +18,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // GetData weather = GetData();
 
-  void getdata() async {
-    // Weather weather = Weather(temp_City: "Sharaqpur");
-    // await weather.getData();
-    // weather.printWeatherSpecs();
-    // Response response = await get(Uri.parse("http://api.openweathermap.org/geo/1.0/direct?q=Sharaqpur,PK&limit=5&appid=40ee76a33085129f390cf3a27b8737db"));
-    // List a = jsonDecode(response.body);
-    // Map a1 = a[0];
-    // double lat  = a1['lat'];
-    // double long  = a1['lon'];
-    // print(lat);
-    // print(a);
-
-    //
-    //
-    // Response response = await get(Uri.parse("https://api.openweathermap.org/data/2.5/weather?q=Sharaqpur&appid=40ee76a33085129f390cf3a27b8737db"));
-    // // print(response.body);
-    // Map weather = jsonDecode(response.body);
-    // List weather0 = weather['weather'];
-    //
-    // Map weather00 = weather0[0];
-    // print (weather00['description']);
-
-    // Map weather = data['weather'];
-    // print(data);
-  }
 
   @override
   void setState(fn) {
@@ -123,6 +98,12 @@ class _HomeState extends State<Home> {
 
     FocusNode searchNode = FocusNode();
     final refreshKey = GlobalKey<RefreshIndicatorState>();
+    void SearchCity(String value)
+    {
+      Navigator.pushReplacementNamed(context, "/loading", arguments: { "city" : searchController.text,});
+        print("Searched ${searchController.text}");
+
+    }
     Future<void> OnRefresh() async
     {
       Navigator.pushReplacementNamed(context, "/loading", arguments: {
@@ -210,12 +191,14 @@ class _HomeState extends State<Home> {
                             // textInputAction: TextInputAction.,
                             focusNode: searchNode,
                             // onSubmitted: ( () {}),
-                            onEditingComplete: (){
-                                Navigator.pushReplacementNamed(context, "/loading", arguments: {
-                                  "city" : searchController.text,
-                                });
-                              print("hello");
-                            },
+                            textInputAction: TextInputAction.search,
+                            onSubmitted: SearchCity,
+                            // onEditingComplete: (){
+                            //     Navigator.pushReplacementNamed(context, "/loading", arguments: {
+                            //       "city" : searchController.text,
+                            //     });
+                            //   // print("hello");
+                            // },
                             // onTapOutside: (),
                             // onSubmitted:
                             controller: searchController,
@@ -226,6 +209,7 @@ class _HomeState extends State<Home> {
                       )),
                       GestureDetector(
                         child: Container(
+
                           padding: EdgeInsets.only(right: widthPercent(3)),
                           child: Icon(Icons.refresh_outlined,
                           size: averagePercent(8),
